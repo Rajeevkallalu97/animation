@@ -2,6 +2,8 @@ import React, { Component, createRef } from "react";
 
 // Algorithms
 import BubbleSort from "./algorithms/Bubble";
+import MergeSort from "./algorithms/Merge";
+import InsertionSort from "./algorithms/Insertion";
 
 // Icons
 import Play from "@material-ui/icons/PlayCircleFilledWhite";
@@ -22,37 +24,41 @@ class App extends Component {
     this.value = 0;
   }
   state = {
-    array: [],
-    arraySteps: [],
+    list: [],
+    listSteps: [],
     colorKey: [],
     colorSteps: [],
     currentStep: 0,
-    count: 15,
+    count: 8,
     delay: 500,
-    algorithm: "Bubble Sort",
+    algorithm: "Insertion Sort",
     timeouts: [],
   };
   ALGORITHMS = {
     "Bubble Sort": BubbleSort,
+    "Merge Sort": MergeSort,
+    "Insertion Sort": InsertionSort,
   };
 
-  // Call generateRandomArray as the component mounts
+  // Call generateRandomList as the component mounts
   componentDidMount() {
-    this.generateRandomArray();
+    this.generateRandomList();
   }
 
   generateSteps = () => {
     // slice to make the copy of array
-    let array = this.state.array.slice();
-    let steps = this.state.arraySteps.slice();
+    let list = this.state.list.slice();
+    let steps = this.state.listSteps.slice();
     let colorSteps = this.state.colorSteps.slice();
-    console.log(array, steps, colorSteps + "Before");
+    // console.log(list, steps, colorSteps + "Before");
+    console.log(list);
 
-    this.ALGORITHMS[this.state.algorithm](array, 0, steps, colorSteps);
-    console.log(array, steps, colorSteps);
-
+    this.ALGORITHMS[this.state.algorithm](list, 0, steps, colorSteps);
+    // this.ALGORITHMS["Bubble Sort"](list, steps, colorSteps);
+    // console.log(list, steps, colorSteps);
+    // console.log(list, steps);
     this.setState({
-      arraySteps: steps,
+      listSteps: steps,
       colorSteps: colorSteps,
     });
   };
@@ -79,7 +85,7 @@ class App extends Component {
   };
 
   // Generate random array for sorting
-  generateRandomArray = () => {
+  generateRandomList = () => {
     this.clearTimeouts();
     this.clearColorKey();
     // Number of bars to be generate
@@ -93,8 +99,8 @@ class App extends Component {
     this.setState(
       {
         // Assigning temp to array
-        array: temp,
-        arraySteps: [temp],
+        list: temp,
+        listSteps: [temp],
         currentStep: 0,
       },
       () => {
@@ -104,12 +110,12 @@ class App extends Component {
   };
 
   changeArray = (index, value) => {
-    let arr = this.state.array;
+    let arr = this.state.list;
     arr[index] = value;
     this.setState(
       {
-        array: arr,
-        arraySteps: [arr],
+        list: arr,
+        listSteps: [arr],
         currentStep: 0,
       },
       () => {
@@ -129,7 +135,7 @@ class App extends Component {
     clearTimeout(this.timeout.current);
     this.setState({
       currentStep: currentStep,
-      array: this.state.arraySteps[currentStep],
+      list: this.state.listSteps[currentStep],
       colorKey: this.state.colorSteps[currentStep],
     });
   };
@@ -138,24 +144,24 @@ class App extends Component {
     let currentStep = this.state.currentStep;
 
     // If at the end of array
-    if (currentStep >= this.state.arraySteps.length - 1) return;
+    if (currentStep >= this.state.listSteps.length - 1) return;
     // Increment the step
     this.value++;
     currentStep += 1;
     this.setState({
       currentStep: currentStep,
-      array: this.state.arraySteps[currentStep],
+      list: this.state.listSteps[currentStep],
       colorKey: this.state.colorSteps[currentStep],
     });
   };
   // Animations frame with timeout of delay
   update = (timeouts) => {
     let timeout = setTimeout(() => {
-      let steps = this.state.arraySteps;
+      let steps = this.state.listSteps;
       let colorSteps = this.state.colorSteps;
       let currentStep = this.state.currentStep;
       this.setState({
-        array: steps[currentStep],
+        list: steps[currentStep],
         colorKey: colorSteps[currentStep],
         currentStep: currentStep + 1,
       });
@@ -174,7 +180,7 @@ class App extends Component {
 
   // Loop till the array steps and call animation frames
   step_loop = () => {
-    let steps = this.state.arraySteps;
+    let steps = this.state.listSteps;
     let currentStep = this.state.currentStep;
     let timeouts = [];
     console.log(this.value, steps.length, currentStep);
@@ -200,7 +206,7 @@ class App extends Component {
   };
   render() {
     // Iterate over the bars with map
-    let bars = this.state.array.map((value, index) => (
+    let bars = this.state.list.map((value, index) => (
       // Passing the props
       <Bar
         key={index}
@@ -214,7 +220,7 @@ class App extends Component {
     let playButton;
 
     // If we are in the final step of the sort show a reset button
-    if (this.state.arraySteps.length === this.state.currentStep) {
+    if (this.state.listSteps.length === this.state.currentStep) {
       playButton = (
         <button className="controller" onClick={this.refreshPage}>
           <RotateLeft />
