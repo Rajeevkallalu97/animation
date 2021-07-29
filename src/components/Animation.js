@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Bar.css";
+import "./Animation.css";
 
-function Bar({ index, length, color, changeArray }) {
+function Animation({ index, length, color, changeArray }) {
   // Set the length of the bar to number
   const [len, setLen] = useState(length);
 
@@ -11,12 +11,12 @@ function Bar({ index, length, color, changeArray }) {
   }, [length]);
 
   const colors = [
-    ["rgba(61, 90, 241, 0.5)", "rgba(61, 90, 241, 0.2)"],
-    ["rgba(255, 48, 79, 1)", "rgba(255, 48, 79, 0.5)"],
-    ["rgba(131, 232, 90, 0.5)", "rgba(131, 232, 90, 0.2)"],
+    ["rgba(255, 255, 153, 0.5)", "rgba(255, 255, 153, 0.2)"],
+    ["rgba(255, 102, 102, 1)", "rgba(255, 102, 102, 0.5)"],
+    ["rgba(112, 219, 112, 0.5)", "rgba(112, 219, 112, 0.2)"],
   ];
 
-  const inputStyle = {
+  const input = {
     position: "relative",
     top: Math.floor(length / 2) - 12,
     width: length,
@@ -32,7 +32,7 @@ function Bar({ index, length, color, changeArray }) {
     trasistion: "0.3s",
   };
 
-  const front_back_right_left = {
+  const all_sides = {
     height: `${length}px`,
     transform: `translateY(${200 - length}px)`,
     backgroundColor: `${colors[color][0]}`,
@@ -80,30 +80,21 @@ function Bar({ index, length, color, changeArray }) {
 
   return (
     <>
-      <div className="bar">
+      <div className="animation">
         <div className="side top"></div>
         <div className="side bottom" style={bottom}></div>
         <div className="side right">
-          <div
-            className="color-bar right-color-bar"
-            style={front_back_right_left}
-          ></div>
+          <div className="color-bar right-color-bar" style={all_sides}></div>
         </div>
         <div className="side left">
-          <div
-            className="color-bar left-color-bar"
-            style={front_back_right_left}
-          ></div>
+          <div className="color-bar left-color-bar" style={all_sides}></div>
         </div>
         <div className="side front">
-          <div
-            className="color-bar front-color-bar"
-            style={front_back_right_left}
-          >
+          <div className="color-bar front-color-bar" style={all_sides}>
             <input
               type="number"
               length={len}
-              style={inputStyle}
+              style={input}
               value={len}
               className="input"
               onChange={handleChange}
@@ -111,10 +102,7 @@ function Bar({ index, length, color, changeArray }) {
           </div>
         </div>
         <div className="side back">
-          <div
-            className="color-bar back-color-bar"
-            style={front_back_right_left}
-          ></div>
+          <div className="color-bar back-color-bar" style={all_sides}></div>
         </div>
         <div className="quantity-nav">
           <div
@@ -137,4 +125,4 @@ function Bar({ index, length, color, changeArray }) {
   );
 }
 
-export default Bar;
+export default Animation;

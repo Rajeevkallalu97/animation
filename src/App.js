@@ -1,16 +1,16 @@
 import React, { Component, createRef } from "react";
 
 // Algorithms
-import BubbleSort from "./algorithms/BS";
+import BubbleSort from "./algorithms/Bubble";
 
 // Icons
 import Play from "@material-ui/icons/PlayCircleFilledWhite";
 import Forward from "@material-ui/icons/SkipNextRounded";
 import Backward from "@material-ui/icons/SkipPreviousRounded";
 import RotateLeft from "@material-ui/icons/RotateLeft";
-import PauseIcon from "@material-ui/icons/Pause";
+import PauseIcon from "@material-ui/icons/PauseCircleFilled";
 
-import Bar from "./components/Bar";
+import Bar from "./components/Animation";
 //CSS
 import "./App.css";
 
@@ -27,7 +27,7 @@ class App extends Component {
     colorKey: [],
     colorSteps: [],
     currentStep: 0,
-    count: 5,
+    count: 15,
     delay: 500,
     algorithm: "Bubble Sort",
     timeouts: [],
@@ -148,7 +148,7 @@ class App extends Component {
       colorKey: this.state.colorSteps[currentStep],
     });
   };
-
+  // Animations frame with timeout of delay
   update = (timeouts) => {
     let timeout = setTimeout(() => {
       let steps = this.state.arraySteps;
@@ -172,6 +172,7 @@ class App extends Component {
     this.play = true;
   };
 
+  // Loop till the array steps and call animation frames
   step_loop = () => {
     let steps = this.state.arraySteps;
     let currentStep = this.state.currentStep;
@@ -251,7 +252,6 @@ class App extends Component {
             </button>
           </div>
         </div>
-        <div className="pannel"></div>
       </div>
     );
   }
